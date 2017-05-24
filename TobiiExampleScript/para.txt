@@ -1,0 +1,8 @@
+experiment TES                      %name of the experiment (for data file naming)
+Debug 0                             %Print debug commands etc.
+ConnTobii 1                         %Are we trying to connect to the Tobii?
+ntrials 2                           %How many trials to run?
+bgcolor White                     %What color background to use!
+verbnames Meek Gorp                 %Novel verb names to use
+stimname1 Fooping Zigging    	    %First halvess of stimuli pairs (t1, t2)
+stimname2 Wugging Meeking	        %Second halves of stimuli pairs (t1, t2)

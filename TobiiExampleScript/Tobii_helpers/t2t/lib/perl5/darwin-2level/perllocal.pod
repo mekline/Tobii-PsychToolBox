@@ -1,0 +1,22 @@
+=head2 Sun Jan 16 16:17:15 2011: C<Module> L<t2tsw|t2tsw>
+
+=over 4
+
+=item *
+
+C<installed into: ../../lib/lib/perl5>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: >
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
