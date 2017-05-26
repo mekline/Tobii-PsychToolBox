@@ -16,7 +16,6 @@ function [quality, ErrorCode]      = TobiiInit( hostName, portName, win, res)
 % has occured
 
 global parameters
-scr = parameters.scr;
 
 %try max_wait times
 %each time wait for tim_interv secs before try again 
@@ -69,14 +68,14 @@ try
     
     tmp = find(cond_res==0);
     if( ~isempty(tmp) )
-        error('check_status has failed');
+        error('failed to connect to tobii');
     end
 
     flagNotBreak = 0;
     disp('Press Esc to start calibration');
     while ~flagNotBreak
         eyeTrack = talk2tobii('GET_SAMPLE');
-        DrawEyes(win, eyeTrack(9), eyeTrack(10), eyeTrack(11), eyeTrack(12), eyeTrack(8), eyeTrack(7));
+        DrawEyes(eyeTrack(1), eyeTrack(2), eyeTrack(3), eyeTrack(4), eyeTrack(7), eyeTrack(8));
 
         if( IsKey(ESCAPE) )
             flagNotBreak = 1;
@@ -152,7 +151,7 @@ try
         if (numel(quality)==1) %something went wrong
         	0
         else
-        	mean(quality(:,8))
+        	quality
         end
         
 		%Prompted continue

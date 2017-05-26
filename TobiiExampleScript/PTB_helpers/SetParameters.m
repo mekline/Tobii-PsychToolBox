@@ -1,6 +1,6 @@
 function [] = SetParameters()
 %Sets all the default parameters for a TTW experiment!
-%The types of parameters in this file are things that should never ever
+%The types of parameters in this file are things that should never/rarely
 %need to change.  If I find myself wanting to change for debugging or
 %different versions, I take it out of here and add it to para.txt and make
 %a corresponding ReadParaFile line
@@ -25,7 +25,7 @@ scr.rect = [1366 0 2646 1024]; %VERY STUPID BUG FIX, MAC IS TREATING WINDOWS AS 
 scr.res = scr.rect(3:4);
 scr.numberOfBuffers = 2; %doublebuffer
 scr.winPtr = [];
-[scr.winPtr, scr.winRect] = Screen('OpenWindow', scr.displayScreen, [], scr.rect);
+[scr.winPtr, scr.winRect] = Screen('OpenWindow', scr.displayScreen);
 parameters.scr = scr;
 
 % Set priority for script execution to realtime priority.
@@ -53,8 +53,8 @@ parameters.response = [];
 % Note: this is all relativized to monitor size
 %%%%%%%%%%%
 
-winlength = parameters.scr.rect(3);
-winheight = parameters.scr.rect(4);
+winlength = parameters.scr.rect(3) - parameters.scr.rect(1);
+winheight = parameters.scr.rect(4) - parameters.scr.rect(2);
 
 border = 30;
 moviewidth = winlength/2 - 2*(border);
@@ -78,21 +78,45 @@ parameters.EYETRACKER = 0; %Are we actually connected?
 
 %Tobii connection parameters for ECCL/BCM eyetracker, override in para.txt for yours
 %parameters.hostName = '169.254.6.227';
-%Tobii connection parameters for Lion room 
+
+%Tobii connection parameters for Lion room in Snedlab
 parameters.hostName = '169.254.5.184';
 parameters.portName = '4455';
 
-%%%%%%%%%%%
-% Set any other parameters
-%%%%%%%%%%%
-
-%Set any parameters here that will be constant in your experiment.  With
-%very slightly more effort you might want to set them in a para.txt file &
-%add lines to ReadParaFile instead, to make them easier to modify.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Assign data files, making sure we are not overwriting anything, unless
+%this is the debug subject 99.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+% Define filenames of input files and result file:
+
+if ~isfield(parameters, 'experiment')
+    parameters.experiment = 'testData';
+end
 
 
+parameters.datafilename = strcat('Data/',parameters.experiment,'_',num2str(parameters.subNo),'_Info.dat'); % name of data file to write to
+
+% check for existing result file to prevent accidentally overwriting
+% files from a previous subject/session (except for subject numbers > 99):
+if parameters.subNo<99 & fopen(parameters.datafilename, 'rt')~=-1
+    %fclose('all');
+    error('Result data file already exists! Choose a different subject number.');
+    Closeout_PTool();
+else
+    parameters.datafile = fopen(parameters.datafilename,'wt'); % open ASCII file for writing
+end
+
+%If that worked, go ahead and prepare Tobii data files for this subject
+
+qualityfile = strcat(parameters.experiment,'_', num2str(parameters.subNo),'_Quality.txt');
+trackerfile = strcat(parameters.experiment,'_', num2str(parameters.subNo),'_Tracking.txt');
+eventfile = strcat(parameters.experiment,'_', num2str(parameters.subNo),'_Events.txt');
+
+parameters.qualityFileName = fullfile('./Data/', qualityfile); 
+parameters.trackFileName = fullfile('./Data/', trackerfile); %So tobii will find the locations correctly!
+parameters.eventFileName = fullfile('./Data/', eventfile);
 
 end
 

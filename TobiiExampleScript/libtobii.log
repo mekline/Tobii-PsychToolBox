@@ -251,3 +251,48 @@ Error description: There are not enough data to base a new calibration calculati
 Error code: 11
 Low level error code: 536871943 (0x20000407)
 Debug info: tet.c: 2284
+
+
+Thu May 25 11:07:18 2017
+
+Thread: ?
+Error description: There are not enough data to base a new calibration calculation on.
+Error code: 11
+Low level error code: 536871943 (0x20000407)
+Debug info: tet.c: 2284
+
+
+Thu May 25 12:27:21 2017
+
+Thread: ?
+Error description: There are not enough data to base a new calibration calculation on.
+Error code: 11
+Low level error code: 536871943 (0x20000407)
+Debug info: tet.c: 2284
+
+
+Thu May 25 12:31:59 2017
+
+Thread: ?
+Error description: There are not enough data to base a new calibration calculation on.
+Error code: 11
+Low level error code: 536871943 (0x20000407)
+Debug info: tet.c: 2284
+
+
+Fri May 26 14:25:34 2017
+
+Thread: ?
+Error description: Failed to communicate with server. Disconnected.
+Error code: 2
+Low level error code: 536871168 (0x20000100)
+Debug info: tet.c: 673
+
+
+Fri May 26 14:26:18 2017
+
+Thread: ?
+Error description: Failed to communicate with server. Disconnected.
+Error code: 2
+Low level error code: 536871168 (0x20000100)
+Debug info: tet.c: 673

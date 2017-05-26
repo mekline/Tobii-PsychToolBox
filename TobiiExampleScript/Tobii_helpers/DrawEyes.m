@@ -1,4 +1,4 @@
-function DrawEyes(win, left_w_camera, left_h_camera, right_w_camera, right_h_camera, left_validity, right_validity )
+function DrawEyes(left_w_camera, left_h_camera, right_w_camera, right_h_camera, left_validity, right_validity )
 %DrawEyes(win, w_camera, h_camera, left_validity, right_validity)
 %
 % w_camera: Left eye position seen by the camera.
@@ -12,6 +12,7 @@ function DrawEyes(win, left_w_camera, left_h_camera, right_w_camera, right_h_cam
 %           3 - Likely not (20%),
 %           4 - Certainly not (0%) 
 
+global parameters;
 
 LCamW = left_w_camera;
 RCamW = right_w_camera;
@@ -19,19 +20,22 @@ LCamH = left_h_camera;
 RCamH = right_h_camera;
 
 %estimate screen dimension
-screenNumber=Screen('WindowScreenNumber', win);
-res=Screen('Rect', screenNumber);
-res = res(3:4);
+%screenNumber=Screen('WindowScreenNumber', win);
+%res=Screen('Rect', screenNumber);
+%res = res(3:4);
+rect = parameters.scr.rect;
+screenNumber = parameters.scr.displayScreen;
+win = parameters.scr.winPtr;
 
 %use one square display proportional to the screen resolution
-width = 0.2*res(1);
+width = 0.5*(rect(3)-rect(1));
 height = width;%0.2*res(2);
 
 %draw rectangles
-rectWin(1) = res(1)/2-width/2;
-rectWin(2) = res(2)/2-height/2;
-rectWin(3) = res(1)/2+width/2;
-rectWin(4) = res(2)/2+height/2;
+rectWin(1) = (rect(3)-rect(1))/2-width/2;
+rectWin(2) = (rect(4)-rect(2))/2-height/2;
+rectWin(3) = (rect(3)-rect(1))/2+width/2;
+rectWin(4) = (rect(4)-rect(2))/2+height/2;
 color_frame = [0 0 0 ];
 
 

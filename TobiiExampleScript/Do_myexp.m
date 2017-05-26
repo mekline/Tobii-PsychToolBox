@@ -19,7 +19,8 @@ verber = verber(randperm(2));
 parameters.jumpLeft = verber(1);
 parameters.hugLeft = verber(2);
 
-%Verb trial counterbalancing
+%Verb
+%trial counterbalancing
 counterbalancer = zeros(1, parameters.ntrials);
 counterbalancer(1:floor(parameters.ntrials/2)) = ones;
 parameters.leftFirst = counterbalancer(randperm(parameters.ntrials));
@@ -33,7 +34,6 @@ try
     Write_KnownVerbResultFile('Jump', parameters.jumpLeft);
     
 catch
-    Closeout_PTool();
     psychrethrow(psychlasterror);
 end
 

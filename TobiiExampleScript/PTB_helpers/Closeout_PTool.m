@@ -6,7 +6,8 @@ global parameters
 WaitSecs(0.1); %so we don't crash/close right away
 
 %Exit TOBII connection cleanly
-if(parameters.EYETRACKER)
+parameters
+if (parameters.EYETRACKER>0)
     talk2tobii('STOP_RECORD');
     talk2tobii('STOP_TRACKING');
     talk2tobii('SAVE_DATA',parameters.trackFileName,parameters.eventFileName,'TRUNK');
@@ -21,6 +22,6 @@ Screen('CloseAll');
 ShowCursor;
 fclose('all');
 Priority(0);
-
+clear all;
 end
 
