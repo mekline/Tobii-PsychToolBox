@@ -1,6 +1,6 @@
 function [calibPlotData, calibError]= Calibrate(Calib,morder,iter,donts)
-global EXPWIN
-global parameters
+global EXPWIN EYETRACKER
+
 %CALIBRATE calibrate the eye tracker
 %   This function is used to set and view the calibration results for the tobii eye tracker.
 %
@@ -23,7 +23,7 @@ assert(Calib.points.n >= 2 && length(Calib.points.x)==Calib.points.n, ...
 Screen('FillRect',EXPWIN,Calib.bkcolor*255);
 Screen(EXPWIN, 'Flip');
 try
-    calibObj = ScreenBasedCalibration(parameters.eyetracker);
+    calibObj = ScreenBasedCalibration(EYETRACKER);
     calibObj.enter_calibration_mode();
 end
 
@@ -67,12 +67,12 @@ for  i =1:Calib.points.n;
             pause(0.5);
         end
         if (j==step)
-%             if ~isempty(donts)
-%                 calibObj.discard_data([Calib.points.x(morder(i)), Calib.points.y(morder(i))]);
-%                 disp(['deleted point ' num2str(morder(i)) ' and now adding it, where i = ' num2str(i)])
-%             end
+            if ~isempty(donts)
+                calibObj.discard_data([Calib.points.x(morder(i)), Calib.points.y(morder(i))]);
+                disp(['deleted point ' num2str(morder(i)) ' and now adding it, where i = ' num2str(i)])
+            end
             calibObj.collect_data([Calib.points.x(morder(i)),Calib.points.y(morder(i))]);
-            %['plotted a point at ' num2str([Calib.points.x(morder(i)),Calib.points.y(morder(i))])]
+            ['plotted a point at ' num2str([Calib.points.x(morder(i)),Calib.points.y(morder(i))])]
             pause(0.2);
         end
         mb = mb-ceil((Calib.BigMark - Calib.SmallMark)/step);
@@ -92,7 +92,7 @@ try
     calibPlotData = calibresult.CalibrationPoints;
     
 catch me
-    disp('Compute Calib failed, you must recalibrate')
+    disp('Compute Calib failed, you must recalibrate');
     calibPlotData=[];
     calibError=1;
 end

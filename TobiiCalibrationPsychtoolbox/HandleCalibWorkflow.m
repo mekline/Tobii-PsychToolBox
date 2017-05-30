@@ -1,4 +1,4 @@
-function [pts,TrackError] = HandleCalibWorkflow(Calib)
+function HandleCalibWorkflow(Calib)
 %HandleCalibWorkflow Main function for handling the calibration workflow.
 %   Input:
 %         Calib: The calib config structure (see SetCalibParams)
@@ -6,129 +6,49 @@ function [pts,TrackError] = HandleCalibWorkflow(Calib)
 %         pts: The list of points used for calibration. These could be
 %         further used for the analysis such as the variance, mean etc.
 
-global BLACK EXPWIN
-global parameters
+global KEYID
 
-TrackError=[];
-calLoop=1;
-pts = 0;
-try
-        mOrder = randperm(Calib.points.n);
-        calibplot = Calibrate(Calib,mOrder, 0, []);
-        % Show calibration points and compute calibration.
-        
-        %plot a separate window in standard matlab figure
-        %PlotCalibrationPoints(calibplot, Calib,mOrder);
-        
-        %do the same but with psychtoolbox and more info + user interaction
-        %[pts, TrackError] = PlotCalibrationPoints_Psychtoolbox(calibplot, mOrder, Calib);
-        
-%         while(calLoop)
-%             
-%             clear keyIsDown keyCode
-%             while KbCheck; end %wait for release
-%             FlushEvents; go=1;
-%             while go %accept calibration prompt?
-%                 [~,~,keyCode,~] = KbCheck;
-%                 if(find(keyCode)== 13 | find(keyCode)== 89 )
-%                     disp('Stopping Calibration')
-%                     return
-%                 elseif(find(keyCode)== 78)
-%                     go=0;
-%                     disp('Recalibrating')
-%                 end
-%             end
-%             
-%             Screen('FillRect',EXPWIN,BLACK);
-%             DrawFormattedText(EXPWIN,'Recalibrate all points (a) or some points (b)? Type a or b and return','Center',Calib.screen.height/2, [120 170 175]);
-%             Screen(EXPWIN,'Flip');
-%             
-%             
-%             clear keyIsDown keyCode
-%             while KbCheck; end %wait for release
-%             FlushEvents; go=1;
-%             while go %accept calibration prompt?
-%                 [~,~,keyCode,~] = KbCheck;
-%                 if(find(keyCode)== 65 )
-%                     go=0; allpts=1;
-%                 elseif(find(keyCode)== 66)
-%                     go=0; allpts=0;
-%                 end
-%             end
-%             
-%             if allpts
-%                 close all;
-%                 break;
-%             else
-%                 Screen('FillRect',EXPWIN,BLACK);
-%                 DrawFormattedText(EXPWIN,'Please enter (space separated) the points you wish to recalibrate, eg. 1 3, Followed by return:','Center',Calib.screen.height/2, [255 255 255]);
-%                 Screen(EXPWIN,'Flip');
-%                 h = input('Please enter (space separated) the point numbers that you wish to recalibrate e.g. 1 3, Followed by return:  ', 's');
-%                 
-%                 recalibpts = str2num(h);
-%                 [calibplot, calibError] = Calibrate(Calib,mOrder, 1, recalibpts);
-%  
-%                 if(calibError)
-%                     Screen('FillRect',EXPWIN,BLACK);
-%                     Screen('TextSize',EXPWIN , 15);
-%                     DrawFormattedText(EXPWIN,'Failed to compute calibration. Starting full calibration','Center',Calib.screen.height/2, [255 255 255]);
-%                     Screen(EXPWIN,'Flip');
-%                     WaitSecs(3);
-%                     break;
-%                 end
-%                 
-%                 [pts, TrackError] = PlotCalibrationPoints_Psychtoolbox(calibplot, mOrder, Calib);% Show calibration points and compute calibration.
-%                 
-%                 clear keyIsDown keyCode
-%                 while KbCheck; end %wait for release
-%                 FlushEvents; go=1;
-%                 
-%                 while go %accept calibration prompt?
-%                     [~,~,keyCode,~] = KbCheck;
-%                     if(find(keyCode)== 13 | find(keyCode)== 89 )
-%                         disp('Stopping Calibration')
-%                         return
-%                     elseif(find(keyCode)== 78)
-%                         go=0;
-%                         disp('Recalibrating')
-%                         allpts=1;
-%                     end
-%                 end
-%                 
-%                 
-%                 
-%             end
-% %         end
-%     catch ME    %  Calibration failed
-%         Screen('FillRect',EXPWIN,BLACK);
-%         Screen('TextSize',EXPWIN , 15);
-%         DrawFormattedText(EXPWIN,'Not enough calibration data. Do you want to try again([y]/n), Else continue to Experiment','Center',Calib.screen.height/2, [255 255 255]);
-%         Screen(EXPWIN,'Flip');
-%         ME
-%         
-%         clear keyIsDown keyCode
-%         while KbCheck; end %wait for release
-%         FlushEvents; go=1;
-%         while go %accept calibration prompt?
-%             [~,~,keyCode,~] = KbCheck;
-%             if(find(keyCode)== 89 | find(keyCode)== 13)
-%                 go=0; not_enough_calData=1;
-%             elseif(find(keyCode)== 78)
-%                 go=0; not_enough_calData=0;
-%             end
-%         end
-%         
-%         pts=[];
-%         if not_enough_calData %recalibrate
-%             try
-%                 tetio_stopCalib
-%             end
-%             continue;
-%         else
-%             return; %quit calib
-%         end
-%         
-%     end
+trackError=[];
+isCalibrated=0;
+
+  
+while ~isCalibrated
+
+    mOrder = randperm(Calib.points.n);
+
+    % Put calibration points on the Tobii and compute calibration.
+    [calibPlotData, calibError] = Calibrate(Calib,mOrder, 0, []); 
+
+    if calibError
+        disp('Calibration error, recenter participant')
+        TrackEyeStatus(Calib);
+        continue;
+    end
+    
+    %plot a separate window in standard matlab figure
+    PlotCalibrationResults(calibPlotData, Calib);
+    
+    disp('Accept this calibration [y], or recalibrate [n]?')
+
+    %Take a response
+    while 1
+        [keyIsDown, ~, keyCode]= KbCheck;
+        if keyIsDown
+            if keyCode(KEYID.Y)
+                isCalibrated = 1;
+                disp('Calibration accepted')
+                break;
+            elseif keyCode(KEYID.N)
+                disp('Recalibrating...')
+                break;
+            end
+            while KeyIsDown; end
+        end         
+    end
+    
+    if isCalibrated
+        save('calib_sample.mat', 'calibPlotData'); %%%%XXXXRETURN TO ADD PARTICIPANT INFO HERE!
+    end
 end
 
 

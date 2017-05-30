@@ -2,21 +2,22 @@
 % Preliminaries
 %**************************
 
-
-global parameters; 
-
+global EXPERIMENT
+global SUBJECT
+global FOLDERNAME
+global EYETRACKER %will be the Tobii eyetracker object
+global EXPFOLDER 
 global EXPWIN %Psychtoolbox window
 global KEYBOARD 
-global SPACEKEY 
+global KEYID %Put keycodes in here
 global CENTER %Center of psychtoolbox window 
 global WHITE 
 global BLACK 
 
+
 addpath(genpath('/Applications/TobiiProSDK'));
-parameters.folder = fileparts(which('Tobii_calibration_with_psychtoolbox.m')); %add this folder to the path too.
-addpath(genpath(parameters.folder));
-
-
+EXPFOLDER = fileparts(which('Tobii_calibration_with_psychtoolbox.m')); %add this folder to the path too.
+addpath(genpath(EXPFOLDER));
 
 %Make PTB less verbose!
 Screen('Preference', 'Verbosity', 0);
@@ -33,69 +34,49 @@ CENTER = [round((Calib.screen.width - Calib.screen.x)/2) ...
 BLACK = BlackIndex(EXPWIN); 
 WHITE = WhiteIndex(EXPWIN);
 
-
-KEYBOARD=max(GetKeyboardIndices);
-SPACEKEY = 32;%Windows system key code
 KbName('UnifyKeyNames');
-parameters.space=KbName('SPACE');
-parameters.esc=KbName('ESCAPE');
-parameters.z_press=KbName('z');
-parameters.c_press=KbName('c');
-parameters.n_press=KbName('n');
-parameters.y_press=KbName('y');
+KEYBOARD=max(GetKeyboardIndices);
+KEYID.SPACE=KbName('SPACE');
+KEYID.Y = KbName('y');
+KEYID.N = KbName('n');
+
 
 
 %****************************
 % Connect to eye tracker
 %****************************
+
 eyetrackerhost = 'TT060-301-30700930.local.';
 Tobii = EyeTrackingOperations();
-parameters.eyetracker = Tobii.get_eyetracker('tet-tcp://169.254.5.184'); %use find_eyetrackers to find your eyetracker if IP unknown
+EYETRACKER = Tobii.get_eyetracker('tet-tcp://169.254.5.184'); %use find_eyetrackers to find your eyetracker if IP unknown
 
 %Get and print the Frame rate of the current ET
-fprintf('Frame rate: %d Hz.\n', parameters.eyetracker.get_gaze_output_frequency());
-%*********************
-% TrackStatus
-%*********************
-TrackStatus(Calib);
+fprintf('Frame rate: %d Hz.\n', EYETRACKER.get_gaze_output_frequency());
 
 %*********************
-% Calibration XXXXXXXXSTART HERE!!!!
+% Track status of eyes (position participant before calibrating)
 %*********************
+
+TrackEyeStatus(Calib);
+
+%*********************
+% Calibration
+%*********************
+
 disp('Starting Calibration workflow');
-[pts, CalibError] = HandleCalibWorkflow(Calib);
-disp('Calibration workflow stopped');
+HandleCalibWorkflow(Calib);
+disp('Calibration workflow finished');
 Screen('FillRect',EXPWIN,BLACK);
 Screen(EXPWIN,'Flip');
  
 %*********************
-% Calibration finished
+% Calibration finished, go on to your experiment 
 %********************
-disp('Displaying point by point error:')
-disp('[Mean StandardDev]')
-CalibError
-
-
-disp('Starting Validation')
-mOrder = randperm(Calib.points.n);
-tetio_startTracking;
-ValidationError=TestEyeTrackerError(Calib,mOrder);
-
-disp('End of Validation Validation, displaying Error:')
-disp('Displaying point by point error, Left Eye:')
-disp('[Median StandardDev]')
-ValidationError.Left
-
-disp('Displaying point by point error, Left Eye:')
-disp('[Median StandardDev]')
-ValidationError.Right
-disp('Click button to exit & start simple experiment example')
-
 
 disp('Starting simple Experiment')
 %---run simple example of experiment loop
 SimpleExp
 
-
-tetio_cleanUp()
-Screen('Close',EXPWIN)
+%---Clean up and exit nicely
+Screen('Close',EXPWIN);
+clear all;
