@@ -7,20 +7,23 @@ screens=Screen('Screens');
 Calib.screenNumber=max(screens);
 
 [EXPWIN, winRect] = Screen('OpenWindow', Calib.screenNumber);
-Calib.screen.sz=[ 51.9 32.5];  % [Horizontal, Vertical] Dimensions of screen (cm)
-Calib.screen.vdist= 60; % Observer's viewing distance to screen (cm)
-disp(['Using Viewing Distance of: ' num2str(Calib.screen.vdist) ...
-    'cm, with monitor width of ' num2str(Calib.screen.sz(1)) ...
-    'cm and height of ' num2str(Calib.screen.sz(2)) 'cm'])
+
 Calib.screen.x = winRect(1);
 Calib.screen.y = winRect(2);
 Calib.screen.width = winRect(3);
 Calib.screen.height = winRect(4);
 
-degperpix=2*((atan(Calib.screen.sz ./ (2*Calib.screen.vdist))).*(180/pi))./[Calib.screen.width Calib.screen.height];
-pixperdeg=1./degperpix;
-Calib.screen.degperpix = mean(degperpix);
-Calib.screen.pixperdeg = mean(pixperdeg);
+%MK didn't implement this part, you need it if you want info on visual
+%angle
+% Calib.screen.sz=[ 51.9 32.5];  % [Horizontal, Vertical] Dimensions of screen (cm)
+% Calib.screen.vdist= 60; % Observer's viewing distance to screen (cm)
+% disp(['Using Viewing Distance of: ' num2str(Calib.screen.vdist) ...
+%     'cm, with monitor width of ' num2str(Calib.screen.sz(1)) ...
+%     'cm and height of ' num2str(Calib.screen.sz(2)) 'cm'])
+% degperpix=2*((atan(Calib.screen.sz ./ (2*Calib.screen.vdist))).*(180/pi))./[Calib.screen.width Calib.screen.height];
+% pixperdeg=1./degperpix;
+% Calib.screen.degperpix = mean(degperpix);
+% Calib.screen.pixperdeg = mean(pixperdeg);
 
 Calib.points.x = [0.1 0.9 0.5 0.9 0.1];  % X coordinates in [0,1] coordinate system
 Calib.points.y = [0.1 0.1 0.5 0.9 0.9];  % Y coordinates in [0,1] coordinate system

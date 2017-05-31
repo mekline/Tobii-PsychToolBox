@@ -1,23 +1,32 @@
+function Tobii_calibration_with_psychtoolbox(SubjectID)
 %**************************
 % Preliminaries
 %**************************
 
 global EXPERIMENT
 global SUBJECT
-global FOLDERNAME
+global EXPFOLDER %This folder, path generated below
+global DATAFOLDER %Where to save all data
+global TOBII %Tobii mothership object
 global EYETRACKER %will be the Tobii eyetracker object
-global EXPFOLDER 
 global EXPWIN %Psychtoolbox window
-global KEYBOARD 
-global KEYID %Put keycodes in here
+global KEYBOARD %Psychtoolbox needs it
+global KEYID %Put specific keycodes in here
 global CENTER %Center of psychtoolbox window 
 global WHITE 
 global BLACK 
 
+EXPERIMENT = 'TSAMPLE';
+if ~ischar(SubjectID)
+    SUBJECT = num2str(SubjectID);
+else
+    SUBJECT = SubjectID;
+end
 
 addpath(genpath('/Applications/TobiiProSDK'));
 EXPFOLDER = fileparts(which('Tobii_calibration_with_psychtoolbox.m')); %add this folder to the path too.
 addpath(genpath(EXPFOLDER));
+DATAFOLDER = [EXPFOLDER '/Data'];
 
 %Make PTB less verbose!
 Screen('Preference', 'Verbosity', 0);
@@ -34,6 +43,7 @@ CENTER = [round((Calib.screen.width - Calib.screen.x)/2) ...
 BLACK = BlackIndex(EXPWIN); 
 WHITE = WhiteIndex(EXPWIN);
 
+%Add all button presses you'll listen for here. 
 KbName('UnifyKeyNames');
 KEYBOARD=max(GetKeyboardIndices);
 KEYID.SPACE=KbName('SPACE');
@@ -41,14 +51,13 @@ KEYID.Y = KbName('y');
 KEYID.N = KbName('n');
 
 
-
 %****************************
 % Connect to eye tracker
 %****************************
 
-eyetrackerhost = 'TT060-301-30700930.local.';
-Tobii = EyeTrackingOperations();
-EYETRACKER = Tobii.get_eyetracker('tet-tcp://169.254.5.184'); %use find_eyetrackers to find your eyetracker if IP unknown
+%eyetrackerhost = 'TT060-301-30700930.local.';
+TOBII = EyeTrackingOperations();
+EYETRACKER = TOBII.get_eyetracker('tet-tcp://169.254.5.184'); %use find_eyetrackers to find your eyetracker if IP unknown
 
 %Get and print the Frame rate of the current ET
 fprintf('Frame rate: %d Hz.\n', EYETRACKER.get_gaze_output_frequency());

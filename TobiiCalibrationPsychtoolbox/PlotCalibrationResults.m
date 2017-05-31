@@ -1,4 +1,4 @@
-function pts = PlotCalibrationResults(calibPlot, Calib)
+function myfig = PlotCalibrationResults(calibPlot, Calib)
 %PLOTCALIBRATIONPOINTS plots the calibration data for a calibration session
 %   Input: 
 %         calibPlot: The calibration plot data, specifying the input and output calibration data   
@@ -17,7 +17,7 @@ function pts = PlotCalibrationResults(calibPlot, Calib)
         return;
     end
     
-    save('calib_sample.mat', 'calibPlot')
+    %save('calib_sample.mat', 'calibPlot')
     
     %--- Set up plot preliminaries
     
