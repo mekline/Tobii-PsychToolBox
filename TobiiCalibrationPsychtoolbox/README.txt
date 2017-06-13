@@ -1,5 +1,10 @@
-Please read all version notes!
+This is a basic demo that uses the *new* Tobii SDK (LINK, released March 2017) 
+and Psychtoolbox (VERSION NO) together for an end-to-end, minimal script
+that connects to your tobii, conducts calibration, plays a short set of trials
+with video, and exits, saving all the gaze data from each trial in its own file. 
 
+--Notes from the original demo package by INSERT AUTHORS AND LINK--
+(This used the old Tobii SDK 3.0, which has been significantly updated)
 
 Version 1.1 (27-07-15)
 -----------

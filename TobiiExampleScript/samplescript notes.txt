@@ -1,6 +1,0 @@
-This is supposed to be a simple example Matlab tobii experiment that runs on the Playlab eyetracker.
-
-Things to keep in mind/might go wrong/etc.
-
-Matlab needs to know where to find the t2t and Psychtoolbox packages.  They both live in the applications directory, so make sure that's on the path.
-

@@ -2,7 +2,11 @@ function Calib = SetCalibParams()
 
 global EXPWIN
 
-screens=Screen('Screens');
+screens = Screen('Screens'); % On OSX, set Preferences>Mission Control> 
+    %check 'Displays have separate Spaces' if PTB thinks there is only 
+    %one big screen instead of the eyetracker. 
+    %Also make sure to attach tobii to computer BEFORE starting comp
+    
 %Select the screen where the stimulus is going to be presented
 Calib.screenNumber=max(screens);
 

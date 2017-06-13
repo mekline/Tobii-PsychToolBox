@@ -6,22 +6,26 @@ function HandleCalibWorkflow(Calib)
 %         pts: The list of points used for calibration. These could be
 %         further used for the analysis such as the variance, mean etc.
 
-global KEYID SUBJECT DATAFOLDER
+global KEYID SUBJECT DATAFOLDER CALIBVERSION MAXCALIB
 
-trackError=[];
 isCalibrated=0;
-
+triedCalib = 0;
   
-while ~isCalibrated
+while (~isCalibrated && (triedCalib < MAXCALIB))
 
     mOrder = randperm(Calib.points.n);
 
     % Put calibration points on the Tobii and compute calibration.
-    [calibPlotData, calibError] = Calibrate(Calib,mOrder, 0, []); 
+    if strcmp(lower(CALIBVERSION),'kid')
+        [calibPlotData, calibError] = CalibrateKid(Calib,mOrder, 0, []); 
+    else
+        [calibPlotData, calibError] = Calibrate(Calib,mOrder, 0, []);
+    end
+    triedCalib = triedCalib + 1;
 
     if calibError
-        disp('Calibration error, recenter participant')
-        TrackEyeStatus(Calib);
+        disp('Calibration error, recenter participant before trying again!')
+        TrackEyesOnscreen(Calib);
         continue;
     end
     
@@ -64,6 +68,10 @@ while ~isCalibrated
     end
 end
 
+%Message if we never got a calibration!
+if ~isCalibrated
+    display('Calibration failed! Continuing to the experiment, but this data should probably be manually recalibrated');
+end
 
 
 
