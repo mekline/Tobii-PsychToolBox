@@ -111,7 +111,7 @@ end
 %- turn the tobii off & back on again
 %- unplug the ethernet cable & replug
 %- run ping <ip> and then telnet <ip>. If only the latter fails...(I don't
-%know, I am stuck here for Koala room.)
+%know, I am stuck here.)
 
 
 %*********************
