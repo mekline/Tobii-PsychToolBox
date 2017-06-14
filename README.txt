@@ -8,17 +8,16 @@ The main script is:
 
 Tobii_calibration_with_psychtoolbox(SubjectID, options).
 
-The hardest parts of getting this to your own setup are likely to be getting
-matlab to connect to the tobii, and getting PTB to play movies (especially on macs).
+Good luck! If you try this and have feedback, you can submit an issue report or contact me at mekline@mit.edu The hardest parts of getting this to your own setup are likely to be getting matlab to connect to the tobii, and getting PTB to play movies (especially on macs).
 
-Recommend starting by running Tobii_calibration_with_psychtoolbox(SubjectID, 'use_eyetracker', 1)
+I recommend starting by running the PTB demo scripts, then running Tobii_calibration_with_psychtoolbox(SubjectID, 'use_eyetracker', 0)
 to ensure you don't have weird PTB bugs in your way (this will just play SimpleExp and exit.)
 
 For the moment, this includes one 'vanilla' calibration and one that was written
 for kids, including music that plays contingent on collecting good data, and
 a spinny calibrator shape by Fani Deligianni for kids. 
 
---Notes from the original demo package (This used the old Tobii SDK 3.0, which has now been significantly updated)
+--Notes from the original demo package (It used the old Tobii SDK 3.0, which has now been significantly updated)
 
 Version 1.1 (27-07-15)
 -----------

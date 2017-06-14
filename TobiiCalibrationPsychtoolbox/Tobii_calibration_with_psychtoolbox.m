@@ -14,7 +14,7 @@ function Tobii_calibration_with_psychtoolbox(SubjectID,varargin)
 % use_eyetracker: set this to 0 for debugging the PTB parts of experiments
 % experiment_name: This defines the prefix that all the data files will have
 % eyetracker_name: Can specify this if you have multiple eyetrackers, give each a nickname for ease of use
-% limit_calib: An integer limit of the number of times we'll try
+ % max_calib: An integer limit of the number of times we'll try
 % calibration before giving up. 
 
 

@@ -49,7 +49,7 @@ lpoints = [0 0];
 %eyes aren't showing!!
 if strcmp(lower(CALIBVERSION), 'kid')
     %Prepare the SOUND 
-    [y, freq] = audioread('hothothot.wav');
+    [y, freq] = audioread('Media/hothothot.wav');
     wavedata = y';
     nrchannels = size(wavedata,1);
     pahandle = PsychPortAudio('Open', [], [], 0, freq, nrchannels); % Open & buffer the default audio device
