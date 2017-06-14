@@ -17,7 +17,7 @@ For the moment, this includes one 'vanilla' calibration and one that was written
 for kids, including music that plays contingent on collecting good data, and
 a spinny calibrator shape by Fani Deligianni for kids. 
 
---Notes from the original demo package (It used the old Tobii SDK 3.0, which has now been significantly updated)
+--Notes from the original demo package (It used the old Tobii SDK 3.0, which has now been significantly updated)--
 
 Version 1.1 (27-07-15)
 -----------
