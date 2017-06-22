@@ -1,10 +1,4 @@
-global TOBII EYETRACKER EXPWIN BLACK DATAFOLDER SUBJECT;
-
-if ~ischar(SUBJECT)
-    subname = num2str(SUBJECT);
-else
-    subname = SUBJECT;
-end
+global TOBII EYETRACKER EXPWIN BLACK DATAFOLDER EXPERIMENT SUBJECT;
 
 numberTrials=2;
 
@@ -34,7 +28,7 @@ for trial=1:numberTrials
     
     %Save trial data as MAT, and add to the big CSV
     description = ['All_of_trial_' num2str(trial)]; %description of this timeperiod
-    save([DATAFOLDER, '/gaze_' subname '_' description '.mat'], 'GazeData')
+    save([DATAFOLDER, '/gaze_' EXPERIMENT '_' SUBJECT '_' description '.mat'], 'GazeData')
     SaveGazeData(GazeData, description);
     
 
@@ -44,7 +38,7 @@ end
 timeTable = cell2table(timeCell(2:end,:));
 timeTable.Properties.VariableNames = timeCell(1,:);
 %And save the file!
-filename = [DATAFOLDER, '/timestamps_' subname '.csv'];
+filename = [DATAFOLDER, '/timestamps_' EXPERIMENT '_' SUBJECT '.csv'];
 writetable(timeTable, filename);
 
 Screen('FillRect',EXPWIN,BLACK);

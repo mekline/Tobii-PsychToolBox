@@ -6,7 +6,7 @@ function HandleCalibWorkflow(Calib)
 %         pts: The list of points used for calibration. These could be
 %         further used for the analysis such as the variance, mean etc.
 
-global KEYID SUBJECT DATAFOLDER CALIBVERSION MAXCALIB
+global KEYID SUBJECT DATAFOLDER EXPERIMENT CALIBVERSION MAXCALIB
 
 isCalibrated=0;
 triedCalib = 0;
@@ -52,14 +52,7 @@ while (~isCalibrated && (triedCalib < MAXCALIB))
     
     if isCalibrated %Save the data before moving on! graph, mat and csv
         
-        if ~ischar(SUBJECT)
-            subname = num2str(SUBJECT);
-        else
-            subname = SUBJECT;
-        end
-        
-        
-        figname = [DATAFOLDER, '/calib_', subname];     
+        figname = [DATAFOLDER '/calib_' EXPERIMENT '_' SUBJECT];     
         get(myfig, 'Color') %make sure figure handle is working;
         %savefig('test'); %I sure wish Matlab would let me save a figure right now. 
         

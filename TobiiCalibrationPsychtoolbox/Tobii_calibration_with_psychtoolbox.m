@@ -27,7 +27,7 @@ function Tobii_calibration_with_psychtoolbox(SubjectID,varargin)
 p = inputParser;
 p.addRequired('SubjectID');
 p.addParamValue('use_eyetracker', 1, @isnumeric); %use 0 for no eyetracker
-p.addParamValue('experiment_name', 'SAMPLEEXP', @isstr);
+p.addParamValue('experiment_name', 'SAMPLE', @isstr);
 p.addParamValue('eyetracker_name', 'Lion', @isstr); %in case you have multiple eyetrackers in the lab...
 p.addParamValue('calib_version', 'Adult', @isstr); %can replace with 'Kid' for a cooler kid display. 
 p.addParamValue('max_calib', 5, @isnumeric); %in case we want to NOT loop on the calibration forever.

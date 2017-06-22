@@ -35,7 +35,7 @@ for i=1:length(GazeData)
     end
   
     %Make a full row for each sample
-    gazeCell(end+1,:) = {SUBJECT,...
+    gazeCell(end+1,:) = {subname,...
         thisPoint.DeviceTimeStamp,...
         thisPoint.SystemTimeStamp,...
         description,...
@@ -51,7 +51,7 @@ gazeTable = cell2table(gazeCell(2:end,:));
 gazeTable.Properties.VariableNames = gazeCell(1,:);
 
 %And save the folder!
-filename = [DATAFOLDER, '/gaze_' EXPERIMENT '_' SUBJECT '_' description '.csv'];
+filename = [DATAFOLDER, '/gaze_' EXPERIMENT, '_', 'SUBEJsubname '_' description '.csv'];
 writetable(gazeTable, filename);
 
 
