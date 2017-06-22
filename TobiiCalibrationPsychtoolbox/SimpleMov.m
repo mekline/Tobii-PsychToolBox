@@ -14,7 +14,7 @@ timeCell(end+1,:) = {SUBJECT,...
     TOBII.get_system_time_stamp,...
     'Experiment Start'};
 
-sillymovs = {'Movies/eggthief.mov','Movies/headstand.mov','Movies/dancecircle.mov'};
+sillymovs = {'Media/eggthief.mov','Media/headstand.mov','Media/dancecircle.mov'};
 for trial=1:numberTrials
   
     GazeData = EYETRACKER.get_gaze_data; %dummy call to make sure we clear & collect new data

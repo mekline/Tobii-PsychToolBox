@@ -24,7 +24,7 @@ assert(Calib.points.n >= 2 && length(Calib.points.x)==Calib.points.n, ...
 %Clear out any previous jaunty music that's going
 PsychPortAudio('Close');
 %Turn jaunty music back on
-[y, freq] = audioread('hothothot.wav');
+[y, freq] = audioread('Media/hothothot.wav');
 wavedata = y';
 nrchannels = size(wavedata,1);
 pahandle = PsychPortAudio('Open', [], [], 0, freq, nrchannels); % Open & buffer the default audio device
