@@ -85,7 +85,7 @@ KEYBOARD=max(GetKeyboardIndices);
 KEYID.SPACE=KbName('SPACE');
 KEYID.Y = KbName('y');
 KEYID.N = KbName('n');
-
+KEYID.Z = KbName('z');
 
 %****************************
 % Connect to eye tracker

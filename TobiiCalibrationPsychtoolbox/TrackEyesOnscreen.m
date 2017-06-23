@@ -78,17 +78,23 @@ while 1 %(Runs until you hit the spacebar)
     if (~LValid && ~RValid)
         
         if strcmp(lower(CALIBVERSION), 'kid')
-            PsychPortAudio('Volume',pahandle, 0)
+            PsychPortAudio('Volume',pahandle, 0);
         end
         
         Screen('FillRect',EXPWIN,[0 0 100], figloc);
         DrawFormattedText(EXPWIN, 'Eyes not detected. Reposition Participant',...
             'Center', Calib.screen.height*.2,BLACK);
         Screen(EXPWIN, 'Flip');
+        
+        [~,~,keyCode]=PsychHID('KbCheck', KEYBOARD); %No eyes, but still give the option to go on!
+        if keyCode(KEYID.SPACE)
+            disp('You dont have eyes, calibrating anyway');
+            break;
+        end
         continue; %loop back and wait for valid eye movements
     else
         if strcmp(lower(CALIBVERSION), 'kid')
-            PsychPortAudio('Volume',pahandle, 1)
+            PsychPortAudio('Volume',pahandle, 1);
         end
         Screen('FillRect',EXPWIN,[0 0 100], figloc);
     end
