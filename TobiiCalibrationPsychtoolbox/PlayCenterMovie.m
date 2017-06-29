@@ -13,6 +13,8 @@ function [] = PlayCenterMovie(centerMovie, varargin)
 % ownsound: Set to 1 to turn on the sounds in the movie file - often we want these silent!
 % shouldloop: Set to 1 to make the movie loop (until you press a key to stop it)
 
+global EXPFOLDER EXPWIN CENTER;
+
 p = inputParser;
 p.addRequired('centerMovie', @isstr);
 p.addParamValue('soundclip', 0, @(x) true);
@@ -23,19 +25,13 @@ p.addParamValue('shouldloop', 0, @(x) true);
 p.parse(centerMovie, varargin{:});
 inputs = p.Results;
 
-global EXPWIN CENTER RESOURCEFOLDER;
+inputs.centerMovie = strcat(EXPFOLDER, '/', inputs.centerMovie);
 
 gotSound = 1;
 
 if inputs.soundclip==0
     gotSound = 0;
 end
-
-
-%Make absolute filepaths!
-%currDir = pwd;
-%inputs.centerMovie = strcat(currDir, '/', inputs.centerMovie);
-
 
 %Ensure no keys are being pressed - solves the 'trigger finger problem'
 while KbCheck; end % Wait until all keys are released.

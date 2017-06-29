@@ -29,8 +29,8 @@ Calib.screen.height = winRect(4);
 % Calib.screen.degperpix = mean(degperpix);
 % Calib.screen.pixperdeg = mean(pixperdeg);
 
-Calib.points.x = [0.1 0.9 0.5 0.9 0.1 0.2 0.8 0.4 0.8 0.3];  % X coordinates in [0,1] coordinate system
-Calib.points.y = [0.1 0.1 0.5 0.9 0.9 0.3 0.2 0.6 0.7 0.8];  % Y coordinates in [0,1] coordinate system
+Calib.points.x = [0.1 0.9 0.5 0.9 0.1];  % X coordinates in [0,1] coordinate system
+Calib.points.y = [0.1 0.1 0.5 0.9 0.9];  % Y coordinates in [0,1] coordinate system
 Calib.points.n = size(Calib.points.x, 2); % Number of calibration points
 Calib.bkcolor = [0.65 0.65 0.65]*255; % background color used in calibration process
 Calib.fgcolor = [0 0 1]; % (Foreground) color used in calibration process

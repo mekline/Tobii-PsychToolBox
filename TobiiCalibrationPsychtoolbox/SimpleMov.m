@@ -28,7 +28,7 @@ for trial=1:numberTrials
     
     %Save trial data as MAT, and add to the big CSV
     description = ['All_of_trial_' num2str(trial)]; %description of this timeperiod
-    save([DATAFOLDER, '/gaze_' EXPERIMENT '_' SUBJECT '_' description '.mat'], 'GazeData')
+    save([DATAFOLDER, '/gaze_' EXPERIMENT '_' SUBJECT '_' description '.mat'], 'GazeData');
     SaveGazeData(GazeData, description);
     
 
