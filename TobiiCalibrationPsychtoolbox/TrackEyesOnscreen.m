@@ -47,15 +47,15 @@ lpoints = [0 0];
 
 %If this is for kids, play a jaunty tune (and turn it off below if the
 %eyes aren't showing!!
-if strcmp(lower(CALIBVERSION), 'kid')
-    %Prepare the SOUND 
-    [y, freq] = audioread('Media/hothothot.wav');
-    wavedata = y';
-    nrchannels = size(wavedata,1);
-    pahandle = PsychPortAudio('Open', [], [], 0, freq, nrchannels); % Open & buffer the default audio device
-    PsychPortAudio('FillBuffer', pahandle, wavedata);
-    PsychPortAudio('Start', pahandle, 1, 0, 1);
-end
+% if strcmp(lower(CALIBVERSION), 'kid')
+%     %Prepare the SOUND 
+%     [y, freq] = audioread('Media/hothothot.wav');
+%     wavedata = y';
+%     nrchannels = size(wavedata,1);
+%     pahandle = PsychPortAudio('Open', [], [], 0, freq, nrchannels); % Open & buffer the default audio device
+%     PsychPortAudio('FillBuffer', pahandle, wavedata);
+%     PsychPortAudio('Start', pahandle, 1, 0, 1);
+% end
 
 while 1 %(Runs until you hit the spacebar)
     %This loop is a little complex: at every timestep, it looks for eye
