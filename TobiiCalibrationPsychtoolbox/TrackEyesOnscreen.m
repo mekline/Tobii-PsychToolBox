@@ -76,10 +76,10 @@ while 1 %(Runs until you hit the spacebar)
     %cool music
     
     if (~LValid && ~RValid)
-        
-        if strcmp(lower(CALIBVERSION), 'kid')
-            PsychPortAudio('Volume',pahandle, 0);
-        end
+%         
+%         if strcmp(lower(CALIBVERSION), 'kid')
+%             PsychPortAudio('Volume',pahandle, 0);
+%         end
         
         Screen('FillRect',EXPWIN,[0 0 100], figloc);
         DrawFormattedText(EXPWIN, 'Eyes not detected. Reposition Participant',...
@@ -93,9 +93,9 @@ while 1 %(Runs until you hit the spacebar)
         end
         continue; %loop back and wait for valid eye movements
     else
-        if strcmp(lower(CALIBVERSION), 'kid')
-            PsychPortAudio('Volume',pahandle, 1);
-        end
+%         if strcmp(lower(CALIBVERSION), 'kid')
+%             PsychPortAudio('Volume',pahandle, 1);
+%         end
         Screen('FillRect',EXPWIN,[0 0 100], figloc);
     end
     
