@@ -34,13 +34,13 @@ while (~isCalibrated && (triedCalib < MAXCALIB))
                 if keyCode(KEYID.Y)
                     isCalibrated = 1;
                     isGaveUp = 1;
-                    disp('we didnt calibrate, but move on')
+                    disp('we didnt calibrate, but move on');
                     break;
                 elseif keyCode(KEYID.N)
-                    disp('Recalibrating...')
+                    disp('Recalibrating...');
                     break;
                 elseif keyCode(KEYID.Z)
-                    disp('Recenter participant')
+                    disp('Recenter participant');
                     TrackEyesOnscreen(Calib);
                     break;
                 end
@@ -51,8 +51,8 @@ while (~isCalibrated && (triedCalib < MAXCALIB))
 
         %plot a separate window in standard matlab figure
         myfig = PlotCalibrationResults(calibPlotData, Calib);
-
-        disp('Accept this calibration [y], or recalibrate [n]?')
+        disp('You need to close the results window before moving on.');
+        disp('Accept this calibration [y], or recalibrate [n]?');
 
         %Take a response
         while 1
@@ -60,10 +60,10 @@ while (~isCalibrated && (triedCalib < MAXCALIB))
             if keyIsDown
                 if keyCode(KEYID.Y)
                     isCalibrated = 1;
-                    disp('Calibration accepted')
+                    disp('Calibration accepted');
                     break;
                 elseif keyCode(KEYID.N)
-                    disp('Recalibrating...')
+                    disp('Recalibrating...');
                     break;
                 end
                 while KeyIsDown; end
@@ -78,11 +78,11 @@ if isGaveUp || ~isCalibrated
 else %Save the data before moving on! graph, mat and csv
 
     figname = [DATAFOLDER '/calib_' EXPERIMENT '_' SUBJECT];     
-    get(myfig, 'Color') %make sure figure handle is working;
+    get(myfig, 'Color'); %make sure figure handle is working;
     %savefig('test'); %I sure wish Matlab would let me save a figure right now. 
 
-    save([figname '.mat'], 'calibPlotData');
-    SaveCalibData(calibPlotData);
+    save([figname '.mat'], 'calibPlotData'); %save as .mat
+    SaveCalibData(calibPlotData); %save as wellformed csv
 end
 end
 

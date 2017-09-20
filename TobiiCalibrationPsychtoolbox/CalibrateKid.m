@@ -18,7 +18,7 @@ calibError = 0;
 calibPlotData = 0;
 
 assert(Calib.points.n >= 2 && length(Calib.points.x)==Calib.points.n, ...
-    'Err: Invalid Calibration params, Verify...');
+    'Err: Invalid Calibration params. Need at least 3, and to correctly specify the number.');
 
 
 %Clear out any previous jaunty music that's going
@@ -59,11 +59,11 @@ for  i =1:Calib.points.n;
     ifi = Screen('GetFlipInterval', EXPWIN);
     Screen('FillRect',EXPWIN,Calib.bkcolor*255);
     when0 = Screen(EXPWIN, 'Flip'); %Returns a time so that twirl can animate nicely
-    twirl(EXPWIN,2,ifi,when0,[Calib.points.x(morder(i)), Calib.points.y(morder(i))])
+    twirl(EXPWIN,2,ifi,when0,[Calib.points.x(morder(i)), Calib.points.y(morder(i))]);
 
     calibObj.collect_data([Calib.points.x(morder(i)),Calib.points.y(morder(i))]);
-    ['plotted a point at ' num2str([Calib.points.x(morder(i)),Calib.points.y(morder(i))])]
-    pause(0.2);
+    disp(['plotted a point at ' num2str([Calib.points.x(morder(i)),Calib.points.y(morder(i))])]);
+    pause(0.1);
         
 end
 
