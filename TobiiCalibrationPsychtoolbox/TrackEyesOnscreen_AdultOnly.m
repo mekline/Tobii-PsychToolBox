@@ -1,8 +1,7 @@
 function TrackEyesOnscreen(Calib)
 % Will show one dot per eye when the user positions himself in front of 
-% the eye tracker. This version also plots some fun spinny shapes
-% and boing sounds to keep kids oriented!
-% Use spacebar (or any other) key press to continue.
+% the eye tracker.
+%Use spacebar (or any other) key press to continue.
 %
 %   Input:
 %         Calib: The calib config structure (see SetCalibParams)
@@ -28,15 +27,10 @@ else
     figloc(4) =  Calib.screen.height;
 end
 
-if strcmpi(CALIBVERSION,'kid')
-    attentionshape = imread('Media/shapes.001.jpeg');
-    Screen('PutImage', EXPWIN , attentionshape, figloc); 
-else
-    Screen('FillRect',EXPWIN,[0 0 100], figloc);
-end
-
+Screen('FillRect',EXPWIN,[0 0 100], figloc);
 updateFrequencyInHz = 60;
-pause(0.5);
+
+pause(0.5)
 
 % Get ready to plot the eyes dynamically onscreen
 try
@@ -46,10 +40,23 @@ end
 
 %We'll track validity over the last few seconds of sample and condition the
 %color of the eyes on that.
-LValidity = zeros(1,60); 
-RValidity = zeros(1,60);
 
-timelooper = 0; %A small looper to play cute random noises for the kid
+LValidity = zeros(1,60); %Track validity over the last few samples 
+RValidity = zeros(1,60);
+lpoints = [0 0];
+
+%If this is for kids, play a jaunty tune (and turn it off below if the
+%eyes aren't showing!!
+% if strcmp(lower(CALIBVERSION), 'kid')
+%     %Prepare the SOUND 
+%     [y, freq] = audioread('Media/hothothot.wav');
+%     wavedata = y';
+%     nrchannels = size(wavedata,1);
+%     pahandle = PsychPortAudio('Open', [], [], 0, freq, nrchannels); % Open & buffer the default audio device
+%     PsychPortAudio('FillBuffer', pahandle, wavedata);
+%     PsychPortAudio('Start', pahandle, 1, 0, 1);
+% end
+
 while 1 %(Runs until you hit the spacebar)
     %This loop is a little complex: at every timestep, it looks for eye
     %data, sets the volume of the music, and plots the background and eyes
@@ -58,22 +65,6 @@ while 1 %(Runs until you hit the spacebar)
     pause(4/updateFrequencyInHz); %If you want to do live projection, make sure wait long enough to get a point!    
     GazeData = EYETRACKER.get_gaze_data; %dummy call to make sure we began getting ddata
     
-    if strcmpi(CALIBVERSION, 'kid') %Update some cool noises and pix
-        if mod(timelooper, 60) == 0
-            Play_Sound('Media/bells_short.wav',0);
-            attentionshape = imread('Media/shapes.001.jpeg');
-        elseif mod(timelooper, 60) == 15
-            Play_Sound('Media/bells_short.wav',0);
-            attentionshape = imread('Media/shapes.002.jpeg');
-        elseif mod(timelooper, 60) == 30
-            Play_Sound('Media/boing.wav',0);
-            attentionshape = imread('Media/shapes.003.jpeg');
-        elseif mod(timelooper, 60) == 45
-            Play_Sound('Media/boing.wav',0);
-            attentionshape = imread('Media/shapes.004.jpeg');
-        end
-        timelooper = timelooper + 1;
-    end
     %Update average validity of eyes
     LValid = strcmp(GazeData(end).LeftEye.GazePoint.Validity,'Valid');
     RValid = strcmp(GazeData(end).RightEye.GazePoint.Validity,'Valid');
@@ -81,14 +72,16 @@ while 1 %(Runs until you hit the spacebar)
     LValidity = [LValidity(2:60) LValid];
     RValidity = [RValidity(2:60) RValid]; 
     
-    %If we didn't find either eye, complain to the user     
+    %If we didn't find either eye, complain to the user (and turn off the
+    %cool music
+    
     if (~LValid && ~RValid)
+%         
+%         if strcmp(lower(CALIBVERSION), 'kid')
+%             PsychPortAudio('Volume',pahandle, 0);
+%         end
         
-        if strcmpi(CALIBVERSION, 'kid')
-            Screen('PutImage', EXPWIN , attentionshape, figloc); 
-        else
-            Screen('FillRect',EXPWIN,[0 0 100], figloc);
-        end
+        Screen('FillRect',EXPWIN,[0 0 100], figloc);
         DrawFormattedText(EXPWIN, 'Eyes not detected. Reposition Participant',...
             'Center', Calib.screen.height*.2,BLACK);
         Screen(EXPWIN, 'Flip');
@@ -100,14 +93,13 @@ while 1 %(Runs until you hit the spacebar)
         end
         continue; %loop back and wait for valid eye movements
     else
-        if strcmpi(CALIBVERSION, 'kid')
-            Screen('PutImage', EXPWIN , attentionshape, figloc); 
-        else
-            Screen('FillRect',EXPWIN,[0 0 100], figloc);
-        end       
+%         if strcmp(lower(CALIBVERSION), 'kid')
+%             PsychPortAudio('Volume',pahandle, 1);
+%         end
+        Screen('FillRect',EXPWIN,[0 0 100], figloc);
     end
     
-    %Then, if we found eyes, draw eyes
+    %If we found eyes, draw eyes
     
     Lav = mean(LValidity);
     Rav = mean(RValidity);
@@ -115,9 +107,12 @@ while 1 %(Runs until you hit the spacebar)
     Right_eyeDotColor = [100*(1-Rav) 100*Rav 0];   
     
     
-    disp('Make sure eyes are visibile and stable green. Press space to start calibration');
+    DrawFormattedText(EXPWIN,...
+        'Make sure eyes are visibile and stable green. Press space to start calibration',...
+        'Center',Calib.screen.height*.8, BLACK);
     
     %Draw the eyes on the screen!
+
     if LValid
         scaled_Lx = (150+GazeData(end).LeftEye.GazeOrigin.InUserCoordinateSystem(1))/300; %Just play with these until they stay mostly in the blue field, Tobii's user coordinate system is weird. 
         scaled_Ly = 1 - (500+GazeData(end).LeftEye.GazeOrigin.InUserCoordinateSystem(2))/1000;

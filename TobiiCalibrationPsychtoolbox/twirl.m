@@ -24,7 +24,7 @@ sides=floor(rand*3)+3; %How many sided poly?
 color = SetColor(BACKCOLOR); %Choose a random pretty color
 
 %How will it move?
-numSteps = 75; %This controls how fast the spin goes...
+numSteps = 120; %This controls how fast the spin goes...
 dt = totTime/numSteps;
 size=75; 
 decr = 3;

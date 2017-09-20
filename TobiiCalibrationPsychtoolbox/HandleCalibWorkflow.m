@@ -11,6 +11,12 @@ global KEYID SUBJECT DATAFOLDER EXPERIMENT CALIBVERSION MAXCALIB
 isCalibrated=0;
 isGaveUp = 0;
 triedCalib = 0;
+
+%%%%
+%Start by tracking eyes until operator says to go on!
+%%%%
+TrackEyesOnscreen(Calib);
+%%%%
   
 while (~isCalibrated && (triedCalib < MAXCALIB))
 

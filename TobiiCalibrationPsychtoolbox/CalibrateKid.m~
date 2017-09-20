@@ -46,7 +46,7 @@ for  i =1:Calib.points.n;
     end
     
     %Do a cool twirl!
-    Play_Sound('Media/alien.wav', 0);
+    Play_Sound([RESOURCEFOLDER, 'audio/aa_a']);
     ifi = Screen('GetFlipInterval', EXPWIN);
     Screen('FillRect',EXPWIN,Calib.bkcolor*255);
     when0 = Screen(EXPWIN, 'Flip'); %Returns a time so that twirl can animate nicely
@@ -54,8 +54,7 @@ for  i =1:Calib.points.n;
 
     calibObj.collect_data([Calib.points.x(morder(i)),Calib.points.y(morder(i))]);
     disp(['plotted a point at ' num2str([Calib.points.x(morder(i)),Calib.points.y(morder(i))])]);
-    
-    Play_Sound('Media/boing.wav', 1); %Short, silly blocking sound to break things up!
+        
 end
 
 try
