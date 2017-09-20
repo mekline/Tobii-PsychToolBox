@@ -7,7 +7,7 @@ function TrackEyesOnscreen(Calib)
 %   Input:
 %         Calib: The calib config structure (see SetCalibParams)
 
-global EYETRACKER KEYBOARD KEYID EXPWIN BLACK CALIBVERSION
+global EYETRACKER KEYBOARD KEYID EXPWIN BLACK WHITE CALIBVERSION
 
 %Make a background to show eye movement on
 Screen('FillRect',EXPWIN,Calib.bkcolor);
@@ -30,6 +30,7 @@ end
 
 if strcmpi(CALIBVERSION,'kid')
     attentionshape = imread('Media/shapes.001.jpeg');
+    Screen('FillRect',EXPWIN,WHITE);
     Screen('PutImage', EXPWIN , attentionshape, figloc); 
 else
     Screen('FillRect',EXPWIN,[0 0 100], figloc);
@@ -85,6 +86,7 @@ while 1 %(Runs until you hit the spacebar)
     if (~LValid && ~RValid)
         
         if strcmpi(CALIBVERSION, 'kid')
+            Screen('FillRect',EXPWIN,WHITE);
             Screen('PutImage', EXPWIN , attentionshape, figloc); 
         else
             Screen('FillRect',EXPWIN,[0 0 100], figloc);
@@ -101,6 +103,7 @@ while 1 %(Runs until you hit the spacebar)
         continue; %loop back and wait for valid eye movements
     else
         if strcmpi(CALIBVERSION, 'kid')
+            Screen('FillRect',EXPWIN,WHITE);
             Screen('PutImage', EXPWIN , attentionshape, figloc); 
         else
             Screen('FillRect',EXPWIN,[0 0 100], figloc);
