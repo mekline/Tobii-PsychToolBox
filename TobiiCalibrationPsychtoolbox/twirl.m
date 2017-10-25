@@ -16,12 +16,9 @@ rect=Screen('Rect',win);
 cx = pos(1)*rect(3); %...so convert'em to this screen size
 cy = pos(2)*rect(4);
 
-global BACKCOLOR;
-BACKCOLOR = [0 0 0];
-
 %What poly & color?
 sides=floor(rand*3)+3; %How many sided poly?
-color = SetColor(BACKCOLOR); %Choose a random pretty color
+color = SetColor([1 1 1]); %Choose a random pretty color
 
 %How will it move?
 numSteps = 120; %This controls how fast the spin goes...
